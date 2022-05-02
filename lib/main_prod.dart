@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'HomeScreen.dart';
+import 'Watchlist.dart';
+import 'model/Arguments.dart';
+
 void main() => runApp(MyAppProd());
 
 
@@ -9,12 +13,17 @@ class MyAppProd extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        debugShowCheckedModeBanner: false,
-        home: Prod()
+      debugShowCheckedModeBanner: false,
+      title: 'Named Route Navigation',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => Prod(),
+        '/Home': (context) => HomeScreen(),
+        '/Watchlist' : (context) => Watchlist(),
+      },
     );
   }
 }
@@ -23,18 +32,20 @@ class Prod extends StatelessWidget {
 
   Widget build(BuildContext context)
   {
-    return Container(
-      color: Colors.blue,
-      alignment: Alignment.center,
-      child: Text("PROD",style: TextStyle(
-        color: Colors.black,
-          decoration: TextDecoration.none
-      ),),
-
-    );
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: Text('Prod',style: TextStyle(
+            color: Colors.black,
+          ),),
+        ),
+        body:  Center(
+          child: ElevatedButton(onPressed:() {
+            Navigator.pushNamed(context, '/Home',arguments: Arguments('From Home'));
+          }, child: Text('To Home')),
+        ));
   }
 }
-
 
 
 
