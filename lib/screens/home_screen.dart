@@ -1,12 +1,15 @@
 
 
-import 'package:flutter/cupertino.dart';
+import 'package:flavors_task/constants/constants.dart';
 import 'package:flutter/material.dart';
 
-import 'model/Arguments.dart';
+import '../model/arguments.dart';
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
+
+  @override
   Widget build(BuildContext context)
   {
     final args = ModalRoute.of(context)!.settings.arguments as Arguments;
@@ -16,7 +19,7 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
        automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
-        title: Text('Home',style: TextStyle(
+        title: const Text(Constants.home,style: TextStyle(
           color: Colors.black,
         ),),
       ),
@@ -26,7 +29,7 @@ class HomeScreen extends StatelessWidget {
             Center(
               child: ElevatedButton(onPressed:() {
                 Navigator.pushNamed(context,'/Watchlist');
-              }, child: Text('To Watchlist')),
+              }, child: const Text(Constants.toWatchlist)),
             ),
 
             Center(
@@ -36,7 +39,7 @@ class HomeScreen extends StatelessWidget {
                   content: Text(args.title),
                 ));
                 Navigator.pop(context);
-              }, child: Text('Go Back')),
+              }, child: const Text(Constants.goBack)),
             ),
           ],
         ));
