@@ -6,8 +6,8 @@ import 'package:flavors_task/constants/constants.dart';
 import '../model/contacts_data.dart';
 import 'package:http/http.dart' as http;
 
-class DataApiCall {
 
+class DataApiCall {
   Future <List<ContactsData>> fetchContacts() async {
     Uri _uri = Uri.parse(Constants.contactsUrl);
     final _response = await http.get(_uri);
@@ -18,5 +18,4 @@ class DataApiCall {
       throw Exception(Constants.networkError);
     }
   }
-
 }

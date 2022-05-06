@@ -1,8 +1,12 @@
 
+import 'package:flavors_task/bloc/contacts/contacts_bloc.dart';
+import 'package:flavors_task/bloc/contacts/events.dart';
 import 'package:flavors_task/model/contacts_data.dart';
+import 'package:flavors_task/bloc/contacts/states.dart';
 import 'package:flavors_task/widgets/contact_list.dart';
 import 'package:flavors_task/service/data_api_call.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../constants/constants.dart';
 
@@ -17,13 +21,15 @@ class WatchlistState extends State<Watchlist> {
 
   late Future <List<ContactsData>> contactsList;
   late List <ContactsData> contacts;
+  late ContactsBloc _contactsBloc;
 
   @override
   void initState() {
     super.initState();
-    contactsList = DataApiCall().fetchContacts();
+    //contactsList = DataApiCall().fetchContacts();
+    _contactsBloc = BlocProvider.of<ContactsBloc>(context)
+      ..add(FetchContactsEvents());
   }
-
 
   @override
   Widget build(BuildContext context)
@@ -55,37 +61,45 @@ class WatchlistState extends State<Watchlist> {
               }),
             ),
           ),
-          body: FutureBuilder <List<ContactsData>>(
-              future : contactsList,
-          builder : (context,snapShot){
-              if(snapShot.hasData)
-                {
-                  contacts = snapShot.data!;
+          body: BlocBuilder <ContactsBloc,ContactsState>(
+            bloc: _contactsBloc,
+            builder : (BuildContext context , ContactsState state){
+               if(state is ContactsLoaded)
+                 {
+                   contacts = state.contactsData;
                   return
                    TabBarView(
                       children:
                         List.generate(5, (index) {
                           switch (index) {
                             case 0 :
-                            return ContactList(contactsList:contacts.sublist(0,15));
+                              return ContactList(
+                                  contactsList: contacts.sublist(0, 15));
                             case 1 :
-                              return ContactList(contactsList:contacts.sublist(15,45));
+                              return ContactList(
+                                  contactsList: contacts.sublist(15, 45));
                             case 2 :
-                              return ContactList(contactsList:contacts.sublist(45,65));
+                              return ContactList(
+                                  contactsList: contacts.sublist(45, 65));
                             case 3 :
-                              return ContactList(contactsList:contacts.sublist(65,85));
+                              return ContactList(
+                                  contactsList: contacts.sublist(65, 85));
                             case 4 :
-                              return ContactList(contactsList:contacts.sublist(85,100));
+                              return ContactList(
+                                  contactsList: contacts.sublist(85, 100));
 
                             default:
-                              return ContactList(contactsList:contacts);
-                        }
+                              return ContactList(contactsList: contacts);
+                          }
                         }));
-                }else if (snapShot.hasError) {
-                return const Center(child: Text(Constants.networkError));
-              }
-              return const Center(child: CircularProgressIndicator());
-          })
+
+          }
+               if (state is ContactsListError) {
+                 final error = state.error;
+                 return Center(child: Text(error.toString()));
+               }
+               return const Center(child: CircularProgressIndicator());
+            })
         ) );
   }
 

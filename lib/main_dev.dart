@@ -1,7 +1,9 @@
 import 'package:flavors_task/constants/constants.dart';
 import 'package:flavors_task/screens/watchlist.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'bloc/contacts/contacts_bloc.dart';
 import 'screens/home_screen.dart';
 import 'model/arguments.dart';
 
@@ -23,7 +25,10 @@ class MyAppDev extends StatelessWidget {
       routes: {
         '/': (context) => const Dev(),
         '/Home': (context) => const HomeScreen(),
-        '/Watchlist' : (context) => const Watchlist(),
+        '/Watchlist' : (context) => BlocProvider<ContactsBloc>(
+          create:(BuildContext context) =>  ContactsBloc(),
+          child: const Watchlist(),
+        ),
       },
     );
   }
