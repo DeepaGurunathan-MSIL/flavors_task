@@ -9,6 +9,11 @@ class Constants {
   static const String dev = 'Dev';
   static const String prod = 'Prod';
   static const String goBack = 'Go Back';
-  static const String tabName = 'Contacts';
+  static const String tabName = 'Group';
   static const String imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Google_Contacts_icon.svg/1280px-Google_Contacts_icon.svg.png';
+  static const String changeTheme = 'Change Theme';
+  static const String currentTheme = 'theme';
+  static const String dark = 'Dark';
+  static const String light = 'Light';
+  static const String contactsList = 'Contacts List';
 }

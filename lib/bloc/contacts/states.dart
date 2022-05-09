@@ -1,5 +1,4 @@
 
-
 import '../../model/contacts_data.dart';
 
 abstract class ContactsState {

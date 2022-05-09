@@ -19,6 +19,7 @@ class ContactList extends StatelessWidget {
           itemBuilder: (context, index) {
             ContactsData con = contactsList[index];
             return Card(
+              color: Theme.of(context).cardColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),
               ),

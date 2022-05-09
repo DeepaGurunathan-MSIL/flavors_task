@@ -54,6 +54,8 @@ class WatchlistState extends State<Watchlist> {
         length: 5,
         child:Scaffold(
           appBar: AppBar(
+            title: Text(Constants.contactsList,
+              style: TextStyle(color : Theme.of(context).scaffoldBackgroundColor)),
             bottom:TabBar(
               isScrollable: true,
               tabs: List.generate(5, (index) {

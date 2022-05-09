@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
 
       appBar: AppBar(
        automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).primaryColor,
         title: const Text(Constants.home,style: TextStyle(
           color: Colors.black,
         ),),
