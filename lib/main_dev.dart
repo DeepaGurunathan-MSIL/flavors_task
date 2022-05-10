@@ -17,19 +17,29 @@ class MyAppDev extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    List<bool> isSelected = [true,false];
     return BlocProvider<ThemeBloc>(
       create: (BuildContext context) => ThemeBloc(),
       child: BlocBuilder<ThemeBloc,ThemeState>(
         builder: (BuildContext context, ThemeState themeState){
           if(themeState is ThemeDoneState) {
+            if(themeState.themeValue == Constants.light)
+            {
+              isSelected[0] = true;
+              isSelected[1] = false;
+            }
+            else if(themeState.themeValue == Constants.dark)
+            {
+              isSelected[0] = false;
+              isSelected[1] = true;
+            }
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               title: 'Named Route Navigation',
               theme: themeState.themeData,
               initialRoute: '/',
               routes: {
-                '/': (context) => const Dev(),
+                '/': (context) =>  Dev(isSelected: isSelected),
                 '/Home': (context) => const HomeScreen(),
                 '/Watchlist': (context) =>
                     BlocProvider<ContactsBloc>(
@@ -50,7 +60,8 @@ class MyAppDev extends StatelessWidget {
 }
 
 class Dev extends StatelessWidget {
-  const Dev({Key? key}) : super(key: key);
+  List<bool> isSelected;
+   Dev({Key? key,required this.isSelected}) : super(key: key);
 
   @override
   Widget build(BuildContext context)
@@ -73,26 +84,26 @@ class Dev extends StatelessWidget {
               }, child: const Text(Constants.toHome)),
             ToggleButtons(children:  <Widget>[
             Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
               child: Text(
-              Constants.dark,
+              Constants.light,
                 style: Theme.of(context).textTheme.bodyText1,
                 ),
               ),
             Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Text(
-           Constants.light,
+           Constants.dark,
             style: Theme.of(context).textTheme.bodyText1,
             ),
             ),
           ],onPressed:  (int index) {
               if(index == 0){
-                BlocProvider.of<ThemeBloc>(context).add(SetDarkTheme());
-              } else if (index == 1){
                 BlocProvider.of<ThemeBloc>(context).add(SetLightTheme());
+              } else if (index == 1){
+                BlocProvider.of<ThemeBloc>(context).add(SetDarkTheme());
               }
-            }, isSelected: [true,false],)
+            }, isSelected: isSelected,)
            ],
          ),
        ));

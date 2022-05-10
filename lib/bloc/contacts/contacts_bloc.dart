@@ -1,6 +1,4 @@
 
-import 'dart:io';
-
 import 'package:flavors_task/constants/constants.dart';
 import 'package:flavors_task/bloc/contacts/events.dart';
 import 'package:flavors_task/model/contacts_data.dart';

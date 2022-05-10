@@ -1,6 +1,4 @@
 
-import '../../widgets/app_themes.dart';
-
 class ContactsEvents {}
 class FetchContactsEvents extends ContactsEvents{
   FetchContactsEvents();

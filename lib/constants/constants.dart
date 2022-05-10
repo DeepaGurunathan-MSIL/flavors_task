@@ -16,4 +16,13 @@ class Constants {
   static const String dark = 'Dark';
   static const String light = 'Light';
   static const String contactsList = 'Contacts List';
+  static const String sorting = 'Sorting';
+  static const String done = 'Done';
+  static const String alphabetically = 'Alphabetically';
+  static const String userId = 'User Id';
+  static const String z = 'Z';
+  static const String a = 'A';
+  static const String downArrow = '↓';
+  static const String zero = '0';
+  static const String nine = '9';
 }

@@ -1,7 +1,7 @@
 
 import 'package:flavors_task/bloc/contacts/events.dart';
 import 'package:flavors_task/bloc/themes/states.dart';
-import 'package:flutter/material.dart';
+import 'package:flavors_task/constants/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../widgets/app_themes.dart';
@@ -20,11 +20,11 @@ class ThemeBloc extends Bloc<ThemeEvent,ThemeState>
   }
 
   Future<void> _setDarkThemeData(Emitter emit) async {
-      emit(ThemeDoneState(AppThemes.appThemeData[AppTheme.darkTheme]));
+      emit(ThemeDoneState(AppThemes.appThemeData[AppTheme.darkTheme],Constants.dark));
   }
 
   Future<void> _setWhiteThemeData(Emitter emit) async {
-    emit(ThemeDoneState(AppThemes.appThemeData[AppTheme.lightTheme]));
+    emit(ThemeDoneState(AppThemes.appThemeData[AppTheme.lightTheme],Constants.light));
   }
 
 }

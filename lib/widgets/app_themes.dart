@@ -9,7 +9,12 @@ class AppThemes {
       primaryColor: Colors.white,
       backgroundColor: Colors.white,
       cardColor: Colors.white,
-      textTheme:  const TextTheme(
+      dividerColor: Colors.black,
+      textTheme:   const TextTheme(
+        subtitle1: TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+        ),
         bodyText1: TextStyle(
           color: Colors.black,
         ),
@@ -20,11 +25,16 @@ class AppThemes {
       primarySwatch: Colors.blueGrey,
       primaryColor: Colors.grey,
       cardColor: Colors.grey,
+      dividerColor: Colors.grey,
       buttonTheme: const ButtonThemeData(
         buttonColor: Colors.grey
       ) ,
       backgroundColor: Colors.black,
-      textTheme:  const TextTheme(
+      textTheme:   const TextTheme(
+        subtitle1: TextStyle(
+          color: Colors.blueGrey,
+          fontWeight: FontWeight.bold,
+        ),
         bodyText1: TextStyle(
           color: Colors.blueGrey,
         ),
