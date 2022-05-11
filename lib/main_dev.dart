@@ -1,11 +1,21 @@
 import 'package:flavors_task/constants/constants.dart';
+import 'package:flavors_task/provider/data_provider.dart';
 import 'package:flavors_task/screens/watchlist.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 
 import 'screens/home_screen.dart';
 import 'model/arguments.dart';
 
-void main() => runApp(const MyAppDev());
+void main() => runApp(
+  MultiProvider(providers: providers,
+  child:const MyAppDev(),
+  ));
+
+List<SingleChildWidget> providers = [
+  ChangeNotifierProvider<DataProvider>(create: (_) => DataProvider()),
+];
 
 
 class MyAppDev extends StatelessWidget {

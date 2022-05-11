@@ -1,8 +1,9 @@
 
 import 'package:flavors_task/model/contacts_data.dart';
+import 'package:flavors_task/provider/data_provider.dart';
 import 'package:flavors_task/widgets/contact_list.dart';
-import 'package:flavors_task/service/data_api_call.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/constants.dart';
 
@@ -15,13 +16,14 @@ class Watchlist extends StatefulWidget {
 
 class WatchlistState extends State<Watchlist> {
 
-  late Future <List<ContactsData>> contactsList;
-  late List <ContactsData> contacts;
+  late List<ContactsData> contactsList;
 
   @override
   void initState() {
     super.initState();
-    contactsList = DataApiCall().fetchContacts();
+   // contactsList = DataApiCall().fetchContacts();
+    final contactsData = Provider.of<DataProvider>(context, listen: false);
+    contactsData.getData(context);
   }
 
 
@@ -44,10 +46,14 @@ class WatchlistState extends State<Watchlist> {
     //     )
     // );
 
+    final data = Provider.of<DataProvider>(context);
+    contactsList = data.contactsList;
+
     return DefaultTabController(
         length: 5,
         child:Scaffold(
           appBar: AppBar(
+            title: const Text(Constants.contactList),
             bottom:TabBar(
               isScrollable: true,
               tabs: List.generate(5, (index) {
@@ -55,38 +61,28 @@ class WatchlistState extends State<Watchlist> {
               }),
             ),
           ),
-          body: FutureBuilder <List<ContactsData>>(
-              future : contactsList,
-          builder : (context,snapShot){
-              if(snapShot.hasData)
-                {
-                  contacts = snapShot.data!;
-                  return
-                   TabBarView(
+          body: Container(
+                child: data.loading
+                ? const Center(child: Center(child: CircularProgressIndicator()))
+                : TabBarView(
                       children:
                         List.generate(5, (index) {
                           switch (index) {
                             case 0 :
-                            return ContactList(contactsList:contacts.sublist(0,15));
+                            return ContactList(contactsList:contactsList.sublist(0,15));
                             case 1 :
-                              return ContactList(contactsList:contacts.sublist(15,45));
+                              return ContactList(contactsList:contactsList.sublist(15,45));
                             case 2 :
-                              return ContactList(contactsList:contacts.sublist(45,65));
+                              return ContactList(contactsList:contactsList.sublist(45,65));
                             case 3 :
-                              return ContactList(contactsList:contacts.sublist(65,85));
+                              return ContactList(contactsList:contactsList.sublist(65,85));
                             case 4 :
-                              return ContactList(contactsList:contacts.sublist(85,100));
+                              return ContactList(contactsList:contactsList.sublist(85,100));
 
                             default:
-                              return ContactList(contactsList:contacts);
+                              return ContactList(contactsList:contactsList);
                         }
-                        }));
-                }else if (snapShot.hasError) {
-                return const Center(child: Text(Constants.networkError));
-              }
-              return const Center(child: CircularProgressIndicator());
-          })
+                        })))
         ) );
   }
-
 }
