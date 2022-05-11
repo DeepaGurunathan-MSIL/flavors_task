@@ -1,11 +1,10 @@
-import 'package:flavors_task/constants/constants.dart';
-import 'package:flavors_task/screens/watchlist.dart';
+import 'package:flavors_task/Watchlist.dart';
 import 'package:flutter/material.dart';
 
-import 'screens/home_screen.dart';
-import 'model/arguments.dart';
+import 'HomeScreen.dart';
+import 'model/Arguments.dart';
 
-void main() => runApp(const MyAppDev());
+void main() => runApp(MyAppDev());
 
 
 class MyAppDev extends StatelessWidget {
@@ -21,32 +20,29 @@ class MyAppDev extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const Dev(),
-        '/Home': (context) => const HomeScreen(),
-        '/Watchlist' : (context) => const Watchlist(),
+        '/': (context) => Dev(),
+        '/Home': (context) => HomeScreen(),
+        '/Watchlist' : (context) => Watchlist(),
       },
     );
   }
 }
 
 class Dev extends StatelessWidget {
-  const Dev({Key? key}) : super(key: key);
 
-
-  @override
   Widget build(BuildContext context)
   {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: const Text(Constants.dev,style: TextStyle(
+          title: Text('Dev',style: TextStyle(
               color: Colors.black,
           ),),
         ),
         body:  Center(
          child: ElevatedButton(onPressed:() {
-           Navigator.pushNamed(context, '/Home',arguments: Arguments(Constants.fromHome));
-          }, child: const Text(Constants.toHome)),
+           Navigator.pushNamed(context, '/Home',arguments: Arguments('From Home'));
+          }, child: Text('To Home')),
        ));
   }
 }

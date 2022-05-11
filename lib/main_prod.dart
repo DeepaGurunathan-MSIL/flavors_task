@@ -1,11 +1,10 @@
-import 'package:flavors_task/constants/constants.dart';
 import 'package:flutter/material.dart';
 
-import 'screens/home_screen.dart';
-import 'screens/watchlist.dart';
-import 'model/arguments.dart';
+import 'HomeScreen.dart';
+import 'Watchlist.dart';
+import 'model/Arguments.dart';
 
-void main() => runApp(const MyAppProd());
+void main() => runApp(MyAppProd());
 
 
 class MyAppProd extends StatelessWidget {
@@ -21,32 +20,29 @@ class MyAppProd extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const Prod(),
-        '/Home': (context) => const HomeScreen(),
-        '/Watchlist' : (context) => const Watchlist(),
+        '/': (context) => Prod(),
+        '/Home': (context) => HomeScreen(),
+        '/Watchlist' : (context) => Watchlist(),
       },
     );
   }
 }
 
 class Prod extends StatelessWidget {
-  const Prod({Key? key}) : super(key: key);
 
-
-  @override
   Widget build(BuildContext context)
   {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: const Text(Constants.prod,style: TextStyle(
+          title: Text('Prod',style: TextStyle(
             color: Colors.black,
           ),),
         ),
         body:  Center(
           child: ElevatedButton(onPressed:() {
-            Navigator.pushNamed(context, '/Home',arguments: Arguments(Constants.fromHome));
-          }, child: const Text(Constants.toHome)),
+            Navigator.pushNamed(context, '/Home',arguments: Arguments('From Home'));
+          }, child: Text('To Home')),
         ));
   }
 }
