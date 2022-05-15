@@ -1,5 +1,5 @@
 import 'package:flavors_task/constants/constants.dart';
-import 'package:flavors_task/screens/watchlist.dart';
+import 'package:flavors_task/screens/getx_watchlist.dart';
 import 'package:flutter/material.dart';
 
 import 'screens/home_screen.dart';
@@ -23,7 +23,8 @@ class MyAppDev extends StatelessWidget {
       routes: {
         '/': (context) => const Dev(),
         '/Home': (context) => const HomeScreen(),
-        '/Watchlist' : (context) => const Watchlist(),
+       // '/Watchlist' : (context) => const Watchlist(),
+        '/GetXWatchlist': (context) =>  const GetXWatchlist(),
       },
     );
   }

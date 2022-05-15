@@ -10,6 +10,7 @@ class Constants {
   static const String prod = 'Prod';
   static const String goBack = 'Go Back';
   static const String tabName = 'Contacts';
+  static const String contactList = 'Contact List';
   static const String imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Google_Contacts_icon.svg/1280px-Google_Contacts_icon.svg.png';
 
 }

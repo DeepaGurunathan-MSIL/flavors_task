@@ -29,7 +29,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             Center(
               child: ElevatedButton(onPressed:() {
-                Navigator.pushNamed(context,'/Watchlist');
+                Navigator.pushNamed(context,'/GetXWatchlist');
               }, child: const Text(Constants.toWatchlist)),
             ),
 
