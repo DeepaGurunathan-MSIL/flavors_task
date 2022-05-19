@@ -25,4 +25,6 @@ class Constants {
   static const String downArrow = '↓';
   static const String zero = '0';
   static const String nine = '9';
+  static const String filterIcon = 'Filter';
+  static const String aToz = 'AtoZ';
 }

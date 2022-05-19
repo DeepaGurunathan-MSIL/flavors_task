@@ -15,6 +15,7 @@ class ContactList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      key: const Key(Constants.contactsList),
           itemCount: contactsList.length,
           itemBuilder: (context, index) {
             ContactsData con = contactsList[index];

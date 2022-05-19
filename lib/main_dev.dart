@@ -4,7 +4,7 @@ import 'package:flavors_task/screens/watchlist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/contacts/contacts_bloc.dart';
-import 'bloc/contacts/events.dart';
+import 'bloc/themes/events.dart';
 import 'bloc/themes/theme_bloc.dart';
 import 'screens/home_screen.dart';
 import 'model/arguments.dart';

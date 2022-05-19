@@ -16,6 +16,21 @@ class ContactsBloc extends Bloc<ContactsEvents, ContactsState> {
     if(event is FetchContactsEvents)
     {
      await _getContacts(emit);
+    }else if(event is SortAtoZContactsEvents)
+    {
+      emit (ContactsLoaded(contactsData: event.contacts));
+    }
+    else if(event is SortZtoAContactsEvents)
+    {
+      emit (ContactsLoaded(contactsData: event.contacts));
+    }
+    else if(event is SortNumContactsEvents)
+    {
+      emit (ContactsLoaded(contactsData: event.contacts));
+    }
+    else if(event is SortNumReverseContactsEvents)
+    {
+      emit (ContactsLoaded(contactsData: event.contacts));
     }
   });
 }

@@ -14,3 +14,8 @@ class ContactsListError extends ContactsState {
   final dynamic error;
   ContactsListError({required this.error});
 }
+
+class SortedContactsList extends ContactsState {
+  final List<ContactsData> contactsData;
+  SortedContactsList({required this.contactsData});
+}

@@ -1,17 +1,27 @@
 
+import '../../model/contacts_data.dart';
+
 class ContactsEvents {}
 class FetchContactsEvents extends ContactsEvents{
   FetchContactsEvents();
 }
 
-// Themes
-class ThemeEvent {
+class SortAtoZContactsEvents extends ContactsEvents{
+  late List <ContactsData> contacts;
+  SortAtoZContactsEvents(this.contacts);
 }
 
-class SetDarkTheme extends ThemeEvent{
-  SetDarkTheme();
+class SortZtoAContactsEvents extends ContactsEvents{
+  late List <ContactsData> contacts;
+  SortZtoAContactsEvents(this.contacts);
 }
 
-class SetLightTheme extends ThemeEvent{
-  SetLightTheme();
+class SortNumContactsEvents extends ContactsEvents{
+  late List <ContactsData> contacts;
+  SortNumContactsEvents(this.contacts);
+}
+
+class SortNumReverseContactsEvents extends ContactsEvents{
+  late List <ContactsData> contacts;
+  SortNumReverseContactsEvents(this.contacts);
 }

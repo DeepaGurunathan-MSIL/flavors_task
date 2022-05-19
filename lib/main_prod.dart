@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bloc/contacts/contacts_bloc.dart';
-import 'bloc/contacts/events.dart';
+import 'bloc/themes/events.dart';
 import 'bloc/themes/states.dart';
 import 'bloc/themes/theme_bloc.dart';
 import 'screens/home_screen.dart';
@@ -80,7 +80,9 @@ class Prod extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(onPressed:() {
+              ElevatedButton(
+                key: const Key(Constants.toHome),
+                  onPressed:() {
                 Navigator.pushNamed(context, '/Home',arguments: Arguments(Constants.fromHome));
               }, child: const Text(Constants.toHome)),
               ToggleButtons(children:  <Widget>[

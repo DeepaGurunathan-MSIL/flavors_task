@@ -27,7 +27,9 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Center(
-              child: ElevatedButton(onPressed:() {
+              child: ElevatedButton(
+                key: const Key(Constants.toWatchlist),
+                  onPressed:() {
                 Navigator.pushNamed(context,'/Watchlist');
               }, child: const Text(Constants.toWatchlist)),
             ),

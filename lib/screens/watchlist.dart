@@ -18,14 +18,14 @@ class Watchlist extends StatefulWidget {
 
 class WatchlistState extends State<Watchlist> {
 
-  late Future <List<ContactsData>> contactsList;
-  late List <ContactsData> contacts;
+  late Future <List<ContactsData>> _contactsList;
+  late List <ContactsData> _contacts;
   late ContactsBloc _contactsBloc;
 
   @override
   void initState() {
     super.initState();
-    //contactsList = DataApiCall().fetchContacts();
+    //_contactsList = DataApiCall().fetchContacts();
     _contactsBloc = BlocProvider.of<ContactsBloc>(context)
       ..add(FetchContactsEvents());
   }
@@ -57,87 +57,23 @@ class WatchlistState extends State<Watchlist> {
               style: TextStyle(color : Theme.of(context).scaffoldBackgroundColor)),
             actions:<Widget> [
               IconButton(
+                key: const Key(Constants.filterIcon),
                 icon:Icon(
                   Icons.sort,
                   color: Theme.of(context).scaffoldBackgroundColor,
                 ),
-                onPressed: () {
-                  showModalBottomSheet(context: context,
-                      backgroundColor: Theme.of(context).backgroundColor,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(25.0),
-                        ),
-                      ),
-                      builder: (BuildContext context){
-                          return SizedBox(
-                            height: 200,
-                            child: Container(
-                              padding: const EdgeInsets.only(left: 30,right: 30,bottom: 20),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  Row(
-                                      children:  <Widget>[
-                                        Text(
-                                          Constants.sorting,
-                                          textAlign: TextAlign.left,
-                                          style: Theme.of(context).textTheme.subtitle1,
-                                        ),
-
-                                           Expanded(
-                                             child: GestureDetector(
-                                              child: Text(
-                                                Constants.done,
-                                                textDirection: TextDirection.ltr,
-                                                textAlign: TextAlign.right,
-                                                style: Theme.of(context).textTheme.subtitle1,
-                                              ),
-                                                 onTap:() => Navigator.of(context).pop(),
-                                             ),
-                                        )
-                                      ],
-                                    ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children:  <Widget>[
-                                      Text(
-                                        Constants.alphabetically,
-                                        textAlign: TextAlign.left,
-                                        style: Theme.of(context).textTheme.bodyText1,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(right: 35.0),
-                                        child: buildAlphabetRow(context),
-                                      ),
-                                      buildAlphabetRowReverse(context)
-                                    ],
-                                  ),
-                                  const Divider(color: Colors.grey),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children:  <Widget>[
-                                      Text(
-                                        Constants.userId,
-                                        textAlign: TextAlign.left,
-                                        style: Theme.of(context).textTheme.bodyText1,
-                                      ),
-                                      buildNumberRow(context),
-                                      buildNumberRowReverse(context),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                      });
+                onPressed: ()
+                {
+                  _buildShowModalBottomSheet(context,_contactsBloc);
                 },
               )
             ],
             bottom:TabBar(
               isScrollable: true,
               tabs: List.generate(5, (index) {
-                return Tab(text: Constants.tabName + '${index+1}');
+                return Tab(
+                  key: Key(Constants.tabName + '${index+1}'),
+                    text: Constants.tabName + '${index+1}');
               }),
             ),
           ),
@@ -146,7 +82,7 @@ class WatchlistState extends State<Watchlist> {
             builder : (BuildContext context , ContactsState state){
                if(state is ContactsLoaded)
                  {
-                   contacts = state.contactsData;
+                   _contacts = state.contactsData;
                   return
                    TabBarView(
                       children:
@@ -154,22 +90,22 @@ class WatchlistState extends State<Watchlist> {
                           switch (index) {
                             case 0 :
                               return ContactList(
-                                  contactsList: contacts.sublist(0, 15));
+                                  contactsList: _contacts.sublist(0, 15));
                             case 1 :
                               return ContactList(
-                                  contactsList: contacts.sublist(15, 45));
+                                  contactsList: _contacts.sublist(15, 45));
                             case 2 :
                               return ContactList(
-                                  contactsList: contacts.sublist(45, 65));
+                                  contactsList: _contacts.sublist(45, 65));
                             case 3 :
                               return ContactList(
-                                  contactsList: contacts.sublist(65, 85));
+                                  contactsList: _contacts.sublist(65, 85));
                             case 4 :
                               return ContactList(
-                                  contactsList: contacts.sublist(85, 100));
+                                  contactsList: _contacts.sublist(85, 100));
 
                             default:
-                              return ContactList(contactsList: contacts);
+                              return ContactList(contactsList: _contacts);
                           }
                         }));
 
@@ -183,8 +119,82 @@ class WatchlistState extends State<Watchlist> {
         ) );
   }
 
-  GestureDetector buildAlphabetRow(BuildContext context) {
+  Future<dynamic> _buildShowModalBottomSheet(BuildContext context, ContactsBloc contactsBloc) {
+    return showModalBottomSheet(context: context,
+                    backgroundColor: Theme.of(context).backgroundColor,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(25.0),
+                      ),
+                    ),
+                    builder: (BuildContext context){
+                        return SizedBox(
+                          height: 200,
+                          child: Container(
+                            padding: const EdgeInsets.only(left: 30,right: 30,bottom: 20),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Row(
+                                    children:  <Widget>[
+                                      Text(
+                                        Constants.sorting,
+                                        textAlign: TextAlign.left,
+                                        style: Theme.of(context).textTheme.subtitle1,
+                                      ),
+
+                                         Expanded(
+                                           child: GestureDetector(
+                                            child: Text(
+                                              Constants.done,
+                                              key: const Key(Constants.done),
+                                              textDirection: TextDirection.ltr,
+                                              textAlign: TextAlign.right,
+                                              style: Theme.of(context).textTheme.subtitle1,
+                                            ),
+                                               onTap:() => Navigator.of(context).pop(),
+                                           ),
+                                      )
+                                    ],
+                                  ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children:  <Widget>[
+                                    Text(
+                                      Constants.alphabetically,
+                                      textAlign: TextAlign.left,
+                                      style: Theme.of(context).textTheme.bodyText1,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 35.0),
+                                      child: _buildAlphabetRow(context,contactsBloc),
+                                    ),
+                                    _buildAlphabetRowReverse(context)
+                                  ],
+                                ),
+                                const Divider(color: Colors.grey),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children:  <Widget>[
+                                    Text(
+                                      Constants.userId,
+                                      textAlign: TextAlign.left,
+                                      style: Theme.of(context).textTheme.bodyText1,
+                                    ),
+                                    _buildNumberRow(context),
+                                    _buildNumberRowReverse(context),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                    });
+  }
+
+  GestureDetector _buildAlphabetRow(BuildContext context, ContactsBloc contactsBloc) {
     return GestureDetector(
+      key: const Key(Constants.aToz),
       child: Row(
         children:  <Widget>[
           Text(
@@ -207,14 +217,13 @@ class WatchlistState extends State<Watchlist> {
         ],
       ),
       onTap: (){
-        setState(() {
-          contacts.sort(( a,  b)=>a.name.toLowerCase().compareTo(b.name.toLowerCase()));
-        });
+        _contacts.sort(( a,  b)=>a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+          _contactsBloc.add(SortAtoZContactsEvents(_contacts));
       },
     );
   }
 
-  GestureDetector buildAlphabetRowReverse(BuildContext context) {
+  GestureDetector _buildAlphabetRowReverse(BuildContext context) {
     return GestureDetector(
       child: Row(
         children:  <Widget>[
@@ -238,14 +247,13 @@ class WatchlistState extends State<Watchlist> {
         ],
       ),
       onTap: (){
-        setState(() {
-          contacts.sort(( a,  b)=>b.name.toLowerCase().compareTo(a.name.toLowerCase()));
-        });
+        _contacts.sort(( a,  b)=>b.name.toLowerCase().compareTo(a.name.toLowerCase()));
+          _contactsBloc.add(SortZtoAContactsEvents(_contacts));
       },
     );
   }
 
-  GestureDetector buildNumberRow(BuildContext context) {
+  GestureDetector _buildNumberRow(BuildContext context) {
     return GestureDetector(
       child: Row(
         children:  <Widget>[
@@ -269,14 +277,13 @@ class WatchlistState extends State<Watchlist> {
         ],
       ),
       onTap: (){
-        setState(() {
-          contacts.sort(( a,  b)=>a.contacts.toLowerCase().compareTo(b.contacts.toLowerCase()));
-        });
+        _contacts.sort(( a,  b)=>a.contacts.toLowerCase().compareTo(b.contacts.toLowerCase()));
+          _contactsBloc.add(SortNumContactsEvents(_contacts));
       },
     );
   }
 
-  GestureDetector buildNumberRowReverse(BuildContext context) {
+  GestureDetector _buildNumberRowReverse(BuildContext context) {
     return GestureDetector(
       child: Row(
         children:  <Widget>[
@@ -300,9 +307,8 @@ class WatchlistState extends State<Watchlist> {
         ],
       ),
       onTap: (){
-        setState(() {
-          contacts.sort(( a,  b)=>b.contacts.toLowerCase().compareTo(a.contacts.toLowerCase()));
-        });
+        _contacts.sort(( a,  b)=>b.contacts.toLowerCase().compareTo(a.contacts.toLowerCase()));
+          _contactsBloc.add(SortNumReverseContactsEvents(_contacts));
       },
     );
   }

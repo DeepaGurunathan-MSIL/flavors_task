@@ -1,10 +1,10 @@
 
-import 'package:flavors_task/bloc/contacts/events.dart';
 import 'package:flavors_task/bloc/themes/states.dart';
 import 'package:flavors_task/constants/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../widgets/app_themes.dart';
+import 'events.dart';
 
 class ThemeBloc extends Bloc<ThemeEvent,ThemeState>
 {
