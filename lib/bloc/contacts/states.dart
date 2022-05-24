@@ -1,8 +1,7 @@
 
 import '../../model/contacts_data.dart';
 
-abstract class ContactsState {
-
+class ContactsState {
 }
 class ContactsInitState extends ContactsState {}
 class ContactsLoading extends ContactsState {}

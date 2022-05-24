@@ -4,10 +4,12 @@ import 'package:flavors_task/bloc/contacts/events.dart';
 import 'package:flavors_task/model/contacts_data.dart';
 import 'package:flavors_task/bloc/contacts/states.dart';
 import 'package:flavors_task/widgets/contact_list.dart';
+import 'package:flavors_task/widgets/sort_order.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../constants/constants.dart';
+import '../widgets/app_bar.dart';
+import '../widgets/base_navigator.dart';
 
 class Watchlist extends StatefulWidget {
   const Watchlist({Key? key}) : super(key: key);
@@ -18,14 +20,12 @@ class Watchlist extends StatefulWidget {
 
 class WatchlistState extends State<Watchlist> {
 
-  late Future <List<ContactsData>> _contactsList;
   late List <ContactsData> _contacts;
   late ContactsBloc _contactsBloc;
 
   @override
   void initState() {
     super.initState();
-    //_contactsList = DataApiCall().fetchContacts();
     _contactsBloc = BlocProvider.of<ContactsBloc>(context)
       ..add(FetchContactsEvents());
   }
@@ -33,34 +33,18 @@ class WatchlistState extends State<Watchlist> {
   @override
   Widget build(BuildContext context)
   {
-    // return Scaffold(
-    //     appBar: AppBar(
-    //       automaticallyImplyLeading: false,
-    //       backgroundColor: Colors.white,
-    //       title: Text('Watchlist',style: TextStyle(
-    //         color: Colors.black,
-    //       ),),
-    //     ),
-    //     body:  Center(
-    //       child: ElevatedButton(onPressed:() {
-    //         //Navigator.popAndPushNamed(context, '/');
-    //         Navigator.pushNamedAndRemoveUntil(context,'/' , (route) => false);
-    //       }, child: Text('To Launch')),
-    //     )
-    // );
-
     return DefaultTabController(
         length: 5,
         child:Scaffold(
-          appBar: AppBar(
-            title: Text(Constants.contactsList,
-              style: TextStyle(color : Theme.of(context).scaffoldBackgroundColor)),
-            actions:<Widget> [
+          appBar: baseAppBar(
+            title: Constants.contactsList,
+            bgColor: Theme.of(context).primaryColor,
+            action: <Widget> [
               IconButton(
                 key: const Key(Constants.filterIcon),
-                icon:Icon(
+                icon:const Icon(
                   Icons.sort,
-                  color: Theme.of(context).scaffoldBackgroundColor,
+                  color: Colors.black,
                 ),
                 onPressed: ()
                 {
@@ -68,11 +52,11 @@ class WatchlistState extends State<Watchlist> {
                 },
               )
             ],
-            bottom:TabBar(
+            bottom: TabBar(
               isScrollable: true,
               tabs: List.generate(5, (index) {
                 return Tab(
-                  key: Key(Constants.tabName + '${index+1}'),
+                    key: Key(Constants.tabName + '${index+1}'),
                     text: Constants.tabName + '${index+1}');
               }),
             ),
@@ -152,7 +136,7 @@ class WatchlistState extends State<Watchlist> {
                                               textAlign: TextAlign.right,
                                               style: Theme.of(context).textTheme.subtitle1,
                                             ),
-                                               onTap:() => Navigator.of(context).pop(),
+                                               onTap:() =>  BaseNavigator(context).navigatorPop(),
                                            ),
                                       )
                                     ],
@@ -167,9 +151,13 @@ class WatchlistState extends State<Watchlist> {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(right: 35.0),
-                                      child: _buildAlphabetRow(context,contactsBloc),
+                                      child:SortOrder(_contacts,contactsBloc,context,
+                                          Constants.a,Constants.z,
+                                          Constants.aToz),
                                     ),
-                                    _buildAlphabetRowReverse(context)
+                                    SortOrder(_contacts,contactsBloc,context,
+                                    Constants.z,Constants.a,
+                                    Constants.zToa)
                                   ],
                                 ),
                                 const Divider(color: Colors.grey),
@@ -181,8 +169,12 @@ class WatchlistState extends State<Watchlist> {
                                       textAlign: TextAlign.left,
                                       style: Theme.of(context).textTheme.bodyText1,
                                     ),
-                                    _buildNumberRow(context),
-                                    _buildNumberRowReverse(context),
+                                    SortOrder(_contacts,contactsBloc,context,
+                                        Constants.zero,Constants.nine,
+                                        Constants.numSort),
+                                    SortOrder(_contacts,contactsBloc,context,
+                                        Constants.nine,Constants.zero,
+                                        Constants.numReverseSort),
                                   ],
                                 ),
                               ],
@@ -191,126 +183,4 @@ class WatchlistState extends State<Watchlist> {
                         );
                     });
   }
-
-  GestureDetector _buildAlphabetRow(BuildContext context, ContactsBloc contactsBloc) {
-    return GestureDetector(
-      key: const Key(Constants.aToz),
-      child: Row(
-        children:  <Widget>[
-          Text(
-            Constants.a,
-            textAlign: TextAlign.left,
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-          Text(
-            Constants.downArrow,
-            textDirection: TextDirection.ltr,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
-          Text(
-            Constants.z,
-            textDirection: TextDirection.ltr,
-            textAlign: TextAlign.right,
-            style: Theme.of(context).textTheme.bodyText1,
-          )
-        ],
-      ),
-      onTap: (){
-        _contacts.sort(( a,  b)=>a.name.toLowerCase().compareTo(b.name.toLowerCase()));
-          _contactsBloc.add(SortAtoZContactsEvents(_contacts));
-      },
-    );
-  }
-
-  GestureDetector _buildAlphabetRowReverse(BuildContext context) {
-    return GestureDetector(
-      child: Row(
-        children:  <Widget>[
-          Text(
-            Constants.z,
-            textAlign: TextAlign.left,
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-          Text(
-            Constants.downArrow,
-            textDirection: TextDirection.ltr,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
-          Text(
-            Constants.a,
-            textDirection: TextDirection.ltr,
-            textAlign: TextAlign.right,
-            style: Theme.of(context).textTheme.bodyText1,
-          )
-        ],
-      ),
-      onTap: (){
-        _contacts.sort(( a,  b)=>b.name.toLowerCase().compareTo(a.name.toLowerCase()));
-          _contactsBloc.add(SortZtoAContactsEvents(_contacts));
-      },
-    );
-  }
-
-  GestureDetector _buildNumberRow(BuildContext context) {
-    return GestureDetector(
-      child: Row(
-        children:  <Widget>[
-          Text(
-            Constants.zero,
-            textAlign: TextAlign.left,
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-          Text(
-            Constants.downArrow,
-            textDirection: TextDirection.ltr,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
-          Text(
-            Constants.nine,
-            textDirection: TextDirection.ltr,
-            textAlign: TextAlign.right,
-            style: Theme.of(context).textTheme.bodyText1,
-          )
-        ],
-      ),
-      onTap: (){
-        _contacts.sort(( a,  b)=>a.contacts.toLowerCase().compareTo(b.contacts.toLowerCase()));
-          _contactsBloc.add(SortNumContactsEvents(_contacts));
-      },
-    );
-  }
-
-  GestureDetector _buildNumberRowReverse(BuildContext context) {
-    return GestureDetector(
-      child: Row(
-        children:  <Widget>[
-          Text(
-            Constants.nine,
-            textAlign: TextAlign.left,
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-          Text(
-            Constants.downArrow,
-            textDirection: TextDirection.ltr,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
-          Text(
-            Constants.zero,
-            textDirection: TextDirection.ltr,
-            textAlign: TextAlign.right,
-            style: Theme.of(context).textTheme.bodyText1,
-          )
-        ],
-      ),
-      onTap: (){
-        _contacts.sort(( a,  b)=>b.contacts.toLowerCase().compareTo(a.contacts.toLowerCase()));
-          _contactsBloc.add(SortNumReverseContactsEvents(_contacts));
-      },
-    );
-  }
-
 }

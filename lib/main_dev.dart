@@ -1,6 +1,8 @@
 import 'package:flavors_task/bloc/themes/states.dart';
 import 'package:flavors_task/constants/constants.dart';
 import 'package:flavors_task/screens/watchlist.dart';
+import 'package:flavors_task/widgets/app_bar.dart';
+import 'package:flavors_task/widgets/base_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/contacts/contacts_bloc.dart';
@@ -69,18 +71,16 @@ class Dev extends StatelessWidget {
     ThemeBloc themeBloc;
     themeBloc = BlocProvider.of<ThemeBloc>(context);
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
-          title: const Text(Constants.dev,style: TextStyle(
-              color: Colors.black,
-          ),),
+        appBar: baseAppBar(
+          bgColor: Theme.of(context).primaryColor,
+          title: Constants.dev
         ),
         body:  Center(
          child: Column(
            mainAxisAlignment: MainAxisAlignment.center,
            children: [
              ElevatedButton(onPressed:() {
-               Navigator.pushNamed(context, '/Home',arguments: Arguments(Constants.fromHome));
+               BaseNavigator(context,route:'/Home',arguments: Arguments(Constants.fromHome)).navigatorPush();
               }, child: const Text(Constants.toHome)),
             ToggleButtons(children:  <Widget>[
             Padding(

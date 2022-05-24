@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-abstract class ThemeState {
+class ThemeState {
 }
 
 class ThemeInitState extends ThemeState {}

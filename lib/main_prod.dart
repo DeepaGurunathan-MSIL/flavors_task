@@ -1,4 +1,6 @@
 import 'package:flavors_task/constants/constants.dart';
+import 'package:flavors_task/widgets/app_bar.dart';
+import 'package:flavors_task/widgets/base_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -70,11 +72,9 @@ class Prod extends StatelessWidget {
     ThemeBloc themeBloc;
     themeBloc = BlocProvider.of<ThemeBloc>(context);
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
-          title: const Text(Constants.prod,style: TextStyle(
-            color: Colors.black,
-          ),),
+        appBar: baseAppBar(
+          bgColor: Theme.of(context).primaryColor,
+          title: Constants.prod
         ),
         body:  Center(
           child: Column(
@@ -83,7 +83,7 @@ class Prod extends StatelessWidget {
               ElevatedButton(
                 key: const Key(Constants.toHome),
                   onPressed:() {
-                Navigator.pushNamed(context, '/Home',arguments: Arguments(Constants.fromHome));
+                    BaseNavigator(context,route:'/Home',arguments: Arguments(Constants.fromHome)).navigatorPush();
               }, child: const Text(Constants.toHome)),
               ToggleButtons(children:  <Widget>[
                 Padding(

@@ -27,4 +27,7 @@ class Constants {
   static const String nine = '9';
   static const String filterIcon = 'Filter';
   static const String aToz = 'AtoZ';
+  static const String zToa = 'ZtoA';
+  static const String numSort = 'NumSort';
+  static const String numReverseSort = 'NumReverseSort';
 }

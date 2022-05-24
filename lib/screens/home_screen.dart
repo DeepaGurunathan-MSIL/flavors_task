@@ -4,10 +4,11 @@ import 'package:flavors_task/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 import '../model/arguments.dart';
+import '../widgets/app_bar.dart';
+import '../widgets/base_navigator.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
-
 
   @override
   Widget build(BuildContext context)
@@ -15,13 +16,9 @@ class HomeScreen extends StatelessWidget {
     final args = ModalRoute.of(context)!.settings.arguments as Arguments;
 
     return Scaffold(
-
-      appBar: AppBar(
-       automaticallyImplyLeading: false,
-        backgroundColor: Theme.of(context).primaryColor,
-        title: const Text(Constants.home,style: TextStyle(
-          color: Colors.black,
-        ),),
+      appBar: baseAppBar(
+        title: Constants.home,
+            bgColor: Theme.of(context).primaryColor,
       ),
         body:  Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -30,7 +27,7 @@ class HomeScreen extends StatelessWidget {
               child: ElevatedButton(
                 key: const Key(Constants.toWatchlist),
                   onPressed:() {
-                Navigator.pushNamed(context,'/Watchlist');
+                    BaseNavigator(context,route:'/Watchlist').navigatorPush();
               }, child: const Text(Constants.toWatchlist)),
             ),
 
@@ -40,7 +37,7 @@ class HomeScreen extends StatelessWidget {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(args.title),
                 ));
-                Navigator.pop(context);
+                BaseNavigator(context).navigatorPop();
               }, child: const Text(Constants.goBack)),
             ),
           ],
